@@ -1,0 +1,533 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101d35">
+<title>دفترک</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap');
+
+:root {
+ --navy:#101d35;
+ --navy2:#192b49;
+ --gold:#d6b36a;
+ --bg:#f4f2ed;
+ --text:#202b3b;
+ --muted:#87909d;
+ --white:#fff;
+}
+
+* {box-sizing:border-box}
+
+body {
+ margin:0;
+ background:var(--bg);
+ color:var(--text);
+ font-family:'Vazirmatn',Tahoma,sans-serif;
+}
+
+header {
+ background:linear-gradient(135deg,var(--navy),var(--navy2));
+ color:white;
+ padding:28px 20px 32px;
+ border-radius:0 0 28px 28px;
+}
+
+.top {
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+}
+
+.brand {
+ color:var(--gold);
+ font-size:27px;
+ font-weight:800;
+}
+
+.subtitle {
+ color:#d0d5df;
+ font-size:12px;
+}
+
+.count {
+ margin-top:24px;
+ font-size:14px;
+ color:#e5e8ef;
+}
+
+main {
+ padding:20px;
+ max-width:650px;
+ margin:auto;
+}
+
+.search {
+ width:100%;
+ padding:14px 16px;
+ border:1px solid #e3e0d8;
+ border-radius:14px;
+ background:white;
+ font-family:inherit;
+ font-size:14px;
+ outline:none;
+}
+
+.tabs {
+ display:flex;
+ gap:8px;
+ overflow-x:auto;
+ margin:18px 0;
+ padding-bottom:5px;
+}
+
+.tab {
+ border:1px solid #e1ded6;
+ background:white;
+ color:#687080;
+ padding:9px 15px;
+ border-radius:20px;
+ white-space:nowrap;
+ font-family:inherit;
+ cursor:pointer;
+}
+
+.tab.active {
+ background:var(--navy);
+ color:var(--gold);
+ border-color:var(--navy);
+}
+
+.section-title {
+ font-weight:700;
+ margin:20px 0 12px;
+}
+
+.note {
+ background:white;
+ padding:16px;
+ border-radius:16px;
+ margin-bottom:12px;
+ border:1px solid #ece9e2;
+ box-shadow:0 3px 12px #17243a08;
+}
+
+.note-head {
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+}
+
+.note-title {
+ font-weight:700;
+ font-size:15px;
+}
+
+.note-text {
+ font-size:13px;
+ line-height:2;
+ color:#687080;
+ white-space:pre-wrap;
+ overflow-wrap:anywhere;
+ margin:10px 0;
+}
+
+.note-meta {
+ font-size:11px;
+ color:var(--muted);
+}
+
+.actions {
+ display:flex;
+ gap:8px;
+ margin-top:12px;
+}
+
+.small-btn {
+ border:0;
+ background:#f1f1ef;
+ border-radius:9px;
+ padding:7px 11px;
+ font-family:inherit;
+ cursor:pointer;
+ color:#4c5667;
+}
+
+.gold {color:#bd913b}
+
+.empty {
+ text-align:center;
+ padding:45px 10px;
+ color:var(--muted);
+}
+
+.fab {
+ position:fixed;
+ bottom:25px;
+ left:25px;
+ width:58px;
+ height:58px;
+ border-radius:50%;
+ border:0;
+ background:var(--gold);
+ color:var(--navy);
+ font-size:30px;
+ box-shadow:0 5px 20px #101d3540;
+ cursor:pointer;
+}
+
+.modal {
+ display:none;
+ position:fixed;
+ inset:0;
+ background:#0008;
+ z-index:5;
+ padding:18px;
+ align-items:center;
+ justify-content:center;
+}
+
+.modal.show {display:flex}
+
+.panel {
+ width:100%;
+ max-width:480px;
+ background:white;
+ border-radius:20px;
+ padding:20px;
+ max-height:90vh;
+ overflow:auto;
+}
+
+.panel h3 {margin-top:0}
+
+input,textarea,select {
+ width:100%;
+ padding:12px;
+ border:1px solid #e3e0d8;
+ border-radius:11px;
+ margin:7px 0 14px;
+ font-family:inherit;
+ font-size:14px;
+}
+
+textarea {min-height:130px;resize:vertical}
+
+label {font-size:13px;font-weight:600}
+
+.primary {
+ width:100%;
+ background:var(--navy);
+ color:var(--gold);
+ border:0;
+ border-radius:12px;
+ padding:13px;
+ font-family:inherit;
+ font-weight:700;
+ cursor:pointer;
+}
+
+.secondary {
+ width:100%;
+ background:#eee;
+ color:#444;
+ border:0;
+ border-radius:12px;
+ padding:12px;
+ margin-top:8px;
+ font-family:inherit;
+ cursor:pointer;
+}
+
+.tools {
+ display:flex;
+ gap:8px;
+ margin-top:20px;
+ flex-wrap:wrap;
+}
+
+.tools button {
+ border:1px solid #ddd;
+ background:white;
+ border-radius:10px;
+ padding:9px 12px;
+ font-family:inherit;
+ cursor:pointer;
+ font-size:12px;
+}
+
+footer {
+ text-align:center;
+ color:#9ba0a8;
+ font-size:11px;
+ padding:30px 10px 100px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="top">
+  <div>
+   <div class="brand">✦ دفترک</div>
+   <div class="subtitle">دفترچه یادداشت شخصی شما</div>
+  </div>
+  <div style="color:#d6b36a;font-size:27px">✧</div>
+ </div>
+ <div class="count" id="count">۰ یادداشت ثبت شده</div>
+</header>
+
+<main>
+ <input class="search" id="search" placeholder="⌕ جستجو در یادداشت‌ها...">
+
+ <div class="tabs">
+  <button class="tab active" data-cat="همه">همه</button>
+  <button class="tab" data-cat="شخصی">شخصی</button>
+  <button class="tab" data-cat="کاری">کاری</button>
+  <button class="tab" data-cat="ایده‌ها">ایده‌ها</button>
+  <button class="tab" data-cat="خرید و کارها">خرید و کارها</button>
+  <button class="tab" data-cat="متفرقه">متفرقه</button>
+  <button class="tab" data-cat="مهم">★ مهم‌ها</button>
+ </div>
+
+ <div class="section-title" id="listTitle">یادداشت‌های من</div>
+ <div id="notes"></div>
+
+ <div class="tools">
+  <button onclick="exportData()">پشتیبان‌گیری</button>
+  <button onclick="document.getElementById('importFile').click()">بازیابی اطلاعات</button>
+  <input type="file" id="importFile" accept=".json,application/json" hidden>
+ </div>
+</main>
+
+<footer>دفترک | یادداشت‌های شما، همیشه همراه شما</footer>
+
+<button class="fab" onclick="openEditor()">+</button>
+
+<div class="modal" id="modal">
+ <div class="panel">
+  <h3 id="formTitle">یادداشت جدید</h3>
+
+  <label>عنوان یادداشت</label>
+  <input id="title" maxlength="100" placeholder="عنوان را وارد کنید">
+
+  <label>متن یادداشت</label>
+  <textarea id="content" placeholder="اینجا بنویسید..."></textarea>
+
+  <label>دسته‌بندی</label>
+  <select id="category">
+   <option>شخصی</option>
+   <option>کاری</option>
+   <option>ایده‌ها</option>
+   <option>خرید و کارها</option>
+   <option>متفرقه</option>
+  </select>
+
+  <label>
+   <input type="checkbox" id="favorite" style="width:auto;margin:0 0 0 7px">
+   افزودن به یادداشت‌های مهم
+  </label>
+
+  <button class="primary" onclick="saveNote()">ذخیره یادداشت</button>
+  <button class="secondary" onclick="closeEditor()">انصراف</button>
+ </div>
+</div>
+
+<script>
+const KEY='daftarak_notes_v1';
+
+let notes=[];
+let editingId=null;
+let activeCategory='همه';
+
+try {
+ notes=JSON.parse(localStorage.getItem(KEY)||'[]');
+ if(!Array.isArray(notes)) notes=[];
+} catch(e) { notes=[]; }
+
+const $=id=>document.getElementById(id);
+
+function persist(){
+ localStorage.setItem(KEY,JSON.stringify(notes));
+ render();
+}
+
+function openEditor(id=null){
+ editingId=id;
+ const note=notes.find(n=>n.id===id);
+
+ $('formTitle').textContent=note?'ویرایش یادداشت':'یادداشت جدید';
+ $('title').value=note?.title||'';
+ $('content').value=note?.content||'';
+ $('category').value=note?.category||'شخصی';
+ $('favorite').checked=note?.favorite||false;
+
+ $('modal').classList.add('show');
+ $('title').focus();
+}
+
+function closeEditor(){
+ $('modal').classList.remove('show');
+}
+
+function saveNote(){
+ const title=$('title').value.trim();
+ const content=$('content').value.trim();
+
+ if(!title&&!content){
+  alert('لطفاً عنوان یا متن یادداشت را وارد کنید.');
+  return;
+ }
+
+ if(editingId){
+  const note=notes.find(n=>n.id===editingId);
+  if(note){
+   note.title=title||'بدون عنوان';
+   note.content=content;
+   note.category=$('category').value;
+   note.favorite=$('favorite').checked;
+   note.updated=Date.now();
+  }
+ } else {
+  notes.unshift({
+   id:Date.now().toString()+Math.random().toString(16).slice(2),
+   title:title||'بدون عنوان',
+   content,
+   category:$('category').value,
+   favorite:$('favorite').checked,
+   created:Date.now()
+  });
+ }
+
+ closeEditor();
+ persist();
+}
+
+function deleteNote(id){
+ if(!confirm('این یادداشت حذف شود؟')) return;
+ notes=notes.filter(n=>n.id!==id);
+ persist();
+}
+
+function toggleFavorite(id){
+ const note=notes.find(n=>n.id===id);
+ if(note) note.favorite=!note.favorite;
+ persist();
+}
+
+function formatDate(time){
+ return new Intl.DateTimeFormat('fa-IR',{
+  year:'numeric',month:'long',day:'numeric'
+ }).format(new Date(time));
+}
+
+function render(){
+ const query=$('search').value.trim().toLowerCase();
+
+ let filtered=notes.filter(n=>{
+  const matchesCategory=
+   activeCategory==='همه'||
+   (activeCategory==='مهم'?n.favorite:n.category===activeCategory);
+
+  const matchesSearch=
+   (n.title+' '+n.content).toLowerCase().includes(query);
+
+  return matchesCategory&&matchesSearch;
+ });
+
+ $('count').textContent=
+  new Intl.NumberFormat('fa-IR').format(notes.length)+
+  ' یادداشت ثبت شده';
+
+ $('listTitle').textContent=
+  activeCategory==='مهم'?'یادداشت‌های مهم':
+  activeCategory==='همه'?'یادداشت‌های من':
+  'دسته '+activeCategory;
+
+ if(!filtered.length){
+  $('notes').innerHTML='<div class="empty">✧<br><br>هنوز یادداشتی در این بخش ندارید.</div>';
+  return;
+ }
+
+ $('notes').innerHTML=filtered.map(n=>`
+  <div class="note">
+   <div class="note-head">
+    <div class="note-title">${escapeHTML(n.title)}</div>
+    <button class="small-btn gold" onclick="toggleFavorite('${n.id}')">
+     ${n.favorite?'★':'☆'}
+    </button>
+   </div>
+   <div class="note-text">${escapeHTML(n.content)}</div>
+   <div class="note-meta">${escapeHTML(n.category)} · ${formatDate(n.updated||n.created)}</div>
+   <div class="actions">
+    <button class="small-btn" onclick="openEditor('${n.id}')">ویرایش</button>
+    <button class="small-btn" onclick="deleteNote('${n.id}')">حذف</button>
+   </div>
+  </div>
+ `).join('');
+}
+
+function escapeHTML(value){
+ return String(value||'').replace(/[&<>"']/g,c=>({
+  '&':'&amp;','<':'&lt;','>':'&gt;',
+  '"':'&quot;',"'":'&#39;'
+ }[c]));
+}
+
+function exportData(){
+ const blob=new Blob(
+  [JSON.stringify(notes,null,2)],
+  {type:'application/json'}
+ );
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement('a');
+ a.href=url;
+ a.download='daftarak-backup.json';
+ a.click();
+ URL.revokeObjectURL(url);
+}
+
+$('importFile').addEventListener('change',async e=>{
+ const file=e.target.files[0];
+ if(!file)return;
+
+ try{
+  const data=JSON.parse(await file.text());
+  if(!Array.isArray(data))throw Error();
+
+  if(!confirm('اطلاعات پشتیبان جایگزین یادداشت‌های فعلی شود؟'))return;
+
+  notes=data.filter(n=>
+   n&&typeof n.id==='string'&&
+   typeof n.title==='string'&&
+   typeof n.content==='string'
+  );
+
+  persist();
+  alert('بازیابی با موفقیت انجام شد.');
+ }catch(err){
+  alert('فایل پشتیبان معتبر نیست.');
+ }
+ e.target.value='';
+});
+
+$('search').addEventListener('input',render);
+
+document.querySelectorAll('.tab').forEach(btn=>{
+ btn.addEventListener('click',()=>{
+  activeCategory=btn.dataset.cat;
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+ });
+});
+
+render();
+</script>
+
+</body>
+</html>
